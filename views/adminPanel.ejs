@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./common/head.ejs') %>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/stylesheets/adminPanel.css" />
+  </head>
+  <body>
+    <%- include("./common/top-navbar.ejs") %>
+    <div style="display: flex"><%- include('./common/side-navbar.ejs') %></div>
+    <main>
+      <div class="container">
+        <div style="float: left">
+          <h1>Admin <%= user.firstName %>'s Panel</h1>
+        </div>
+
+        <table id="admins">
+          <br />
+          <br />
+          <div style="float: left; clear: left">
+            <h2>Admins List</h2>
+          </div>
+          <tr>
+            <th>Username</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>Phone Number</th>
+          </tr>
+
+          <% admins.forEach((admin) => { %>
+          <tr>
+            <td><%= admin.username %></td>
+            <td><%= admin.firstName %></td>
+            <td><%= admin.lastName %></td>
+            <td><%= admin.gender %></td>
+            <td><%= admin.phoneNumber %></td>
+          </tr>
+          <% }) %>
+        </table>
+
+        <table id="bolggers">
+          <br />
+          <br />
+          <div style="float: left; clear: left">
+            <h2>Bloggers List</h2>
+          </div>
+          <tr>
+            <th>Username</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>Phone Number</th>
+            <th>User Forget Password</th>
+            <th>Ban User</th>
+          </tr>
+
+          <% bloggers.forEach((blogger) => { %>
+          <tr>
+            <td><%= blogger.username %></td>
+            <td><%= blogger.firstName %></td>
+            <td><%= blogger.lastName %></td>
+            <td><%= blogger.gender %></td>
+            <td><%= blogger.phoneNumber %></td>
+
+            <td>
+              <center>
+                <a
+                  style="cursor: pointer"
+                  onclick="
+                  (() => {
+                    if (confirm('Are you sure you want to change user <%= blogger.username %> password?')) {
+                      request('PATCH', '/updatePsw/<%= blogger._id.toString()%>' );
+                      alert('user <%= blogger.username %> password changed to phone number');
+                     }
+                 })()"
+                >
+                  <i class="fa fa-key" style="font-size: 30px"></i>
+                </a>
+              </center>
+            </td>
+
+            <td>
+              <center>
+                <a
+                  style="cursor: pointer"
+                  onclick="
+                  (() => {
+                    if (confirm('Are you sure you want to ban user <%= blogger.username %> account?')) {
+                      request('DELETE', `/<%= blogger._id.toString() %>` );
+                      window.location.href = '/adminPanel';
+                     }
+                 })()"
+                >
+                  <i class="fa fa-ban" style="font-size: 30px"></i>
+                </a>
+              </center>
+            </td>
+          </tr>
+          <% }) %>
+        </table>
+
+        <!-- articles list -->
+        <br />
+        <br />
+        <h2>Articles List</h2>
+
+        <table id="Articles">
+          <tr>
+            <th>#</th>
+            <th>Article Header</th>
+            <th>Title</th>
+            <th>Writer Username</th>
+            <th>Summary</th>
+            <th>Date of creation</th>
+            <th>Action</th>
+          </tr>
+
+          <% articles.forEach((article, index) => { %>
+          <tr>
+            <td width="5%"><%= index + 1 %></td>
+            <td width="15%">
+              <img
+                src="./uploads/article headers/<%= article.articleHeader %>"
+                alt="articleHeader"
+                style="width: 100%"
+              />
+            </td>
+            <td width="25%"><%= article.title %></td>
+            <td><%= article.author.username %></td>
+            <td width="15%">
+              <div class="ellipse">
+                <%= article.text.replace(/<[^>]+>/g, '') %>
+              </div>
+            </td>
+            <td width="10%">
+              <%= article.createdAt.toLocaleDateString('en-US') %>
+            </td>
+            <td width="20%">
+              <div style="display: flex; justify-content: space-around">
+                <!-- read article -->
+                <a href="/Articles/<%= article._id.toString()%>"
+                  ><i class="fas fa-book-open" style="font-size: 30px"></i
+                ></a>
+                <!-- delete article -->
+                <a
+                  style="cursor: pointer"
+                  onclick="(() => {
+                   request('DELETE', '/Articles/<%= article._id.toString()%>' );
+                   window.location.href = '/adminPanel'; 
+                  })()"
+                  ><i class="fas fa-trash" style="font-size: 30px"></i
+                ></a>
+              </div>
+            </td>
+          </tr>
+          <% }) %>
+        </table>
+
+        <!-- comments list -->
+        <br />
+        <br />
+        <h2>Comments List</h2>
+        <table id="Articles">
+          <tr>
+            <th>#</th>
+            <th>Writer Username</th>
+            <th>Summary</th>
+            <th>Date of creation</th>
+            <th>Action</th>
+          </tr>
+
+          <% comments.forEach((comment, index) => { %>
+          <tr>
+            <td width="5%"><%= index + 1 %></td>
+
+            <td><%= comment.author.username %></td>
+            <td width="15%">
+              <div class="ellipse">
+                <%= comment.text.replace(/<[^>]+>/g, '') %>
+              </div>
+            </td>
+            <td width="10%">
+              <%= comment.createdAt.toLocaleDateString('en-US') %>
+            </td>
+            <td width="20%">
+              <div style="display: flex; justify-content: space-around">
+                <!-- read comment article -->
+                <a href="/Articles/<%= comment.article.toString()%>"
+                  ><i class="fas fa-book-open" style="font-size: 30px"></i
+                ></a>
+                <!-- delete comment -->
+                <a
+                  style="cursor: pointer"
+                  onclick="(() => {
+                   request('DELETE', '/comment/<%= comment._id.toString()%>' );
+                   window.location.href = '/adminPanel'; 
+                  })()"
+                  ><i class="fas fa-trash" style="font-size: 30px"></i
+                ></a>
+              </div>
+            </td>
+          </tr>
+          <% }) %>
+        </table>
+      </div>
+    </main>
+    <script>
+      async function request(method, url = "", data) {
+        const options = {
+          method,
+          referrerPolicy: "no-referrer",
+          credentials: "same-origin",
+          cache: "no-cache",
+          mode: "cors",
+        };
+        if (!!data) {
+          options["body"] = JSON.stringify(data);
+          options["headers"] = {
+            "Content-Type": "application/json",
+          };
+        }
+        // Default options are marked with *
+        const response = await fetch(url, options);
+        return response.json(); // parses JSON response into native JavaScript objects
+      }
+    </script>
+  </body>
+</html>

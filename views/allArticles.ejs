@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./common/head.ejs') %>
+    <title>Home</title>
+    <link rel="stylesheet" href="/stylesheets/all_articles.css" />
+  </head>
+  <body>
+    <%- include('./common/top-navbar.ejs') %>
+    <div style="display: flex"><%- include('./common/side-navbar.ejs') %></div>
+    <main>
+      <% allArticles.forEach((article) => { %>
+      <div class="container">
+        <div style="display: inline-block">
+          <% if(article.author.avatar !== "no"){ %>
+          <img
+            id="avatar"
+            src="/uploads/avatars/<%= article.author.avatar %>"
+            alt="Avatar"
+            style="width: 80px; float: left"
+          />
+          <% } else { %>
+          <img
+            src="/uploads/avatars/default.png"
+            id="avatar"
+            alt="Avatar"
+            class="right"
+            style="width: 80px; float: left"
+          />
+          <% } %>
+
+          <h3 style="float: left">
+            <%= article.author.firstName %> <%= article.author.lastName %>
+          </h3>
+        </div>
+
+        <center>
+          <div style="width: 30%;">
+            <img
+            id="article-header"
+            src="./uploads/article headers/<%= article.articleHeader %>"
+            alt="articleHeader"
+            style="width: 100%"
+          />
+
+          </div>
+
+        </center>
+        <br />
+        <br />
+        <h4 id="article-title"><%= article.title %></h4>
+        <p id="article-text"><%=  article.text.replace(/<[^>]+>/g, '') %></p>
+        <a href="/Articles/<%= article._id.toString()%>">
+          <span class="time-left"><i class="fa fa-comment"></i> Read More And Comment</span>
+        </a>
+        
+        <span class="time-right"
+          ><%= article.createdAt.getHours() + ":" +
+          article.createdAt.getMinutes() %>, <%=
+          article.createdAt.toLocaleDateString('en-US',{ weekday: 'long', year:
+          'numeric', month: 'long', day: 'numeric' }) %></span
+        >
+      </div>
+
+      <% }) %>
+    </main>
+  </body>
+</html>

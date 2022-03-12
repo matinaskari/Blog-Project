@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./common/head.ejs') %>
+    <script
+    src="https://cdn.tiny.cloud/1/4l21zm22wftgi5cbp6ctyq4dpalcrprf3gmkuz1vn8ujxeod/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"
+  ></script>
+    <title>Edit <%= article.title %></title>
+    <link rel="stylesheet" href="/stylesheets/edit-article.css" />
+  </head>
+  <body>
+    <%- include('./common/top-navbar.ejs') %>
+    <div style="display: flex"><%- include('./common/side-navbar.ejs') %></div>
+    <main>
+      <div class="container">
+        <% if(msg){ %>
+
+        <div class="alert warning">
+          <span class="closebtn">&times;</span>
+          <strong> Error! </strong> <%= msg %>
+        </div>
+
+        <% } else { %>
+        <div style="visibility: hidden" class="alert warning">
+          <span class="closebtn">&times;</span>
+          <strong>Nothing </strong> Indicates a warning that might need
+          attention.
+        </div>
+        <% } %>
+        <div
+          style="
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+          "
+        >
+          <div class="header">
+            <h2>Edit Article <%= article.title %></h2>
+          </div>
+          <form
+            id="form"
+            method="post"
+            action="/editArticle"
+            class="form"
+            enctype="multipart/form-data"
+          >
+            <input type="hidden" id="postId" name="postId" value="<%= article._id %>" />
+            <center>
+              <img id="output" src="/uploads/article headers/<%= article.articleHeader %>" />
+            </center>
+
+            <div class="form-control">
+              <label for="title"> <b>Title</b> </label>
+              <input
+                type="text"
+                value="<%= article.title %>"
+                id="title"
+                name="title"
+                placeholder="Enter Article Title.."
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+
+            <div class="form-control">
+              <label for="text"> <b>Text</b> </label>
+              <textarea
+                id="text"
+                name="text"
+                placeholder="Enter Article Text.."
+                style="height: 150px"
+              ><%- article.text %></textarea>
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+
+            <div class="form-control">
+              <label for="articleHeader"> <b>Header Image</b> </label>
+              <input
+                type="file"
+                accept="image/*"
+                onchange="loadFile(event)"
+                name="articleHeader"
+                id="articleHeader"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+
+            <button id="submit-button" type="submit">Save Changes</button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script src="/javascripts/edit-article.js"></script>
+  </body>
+</html>

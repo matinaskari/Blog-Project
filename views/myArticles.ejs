@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./common/head.ejs') %>
+    <script
+      src="https://cdn.tiny.cloud/1/4l21zm22wftgi5cbp6ctyq4dpalcrprf3gmkuz1vn8ujxeod/tinymce/5/tinymce.min.js"
+      referrerpolicy="origin"
+    ></script>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/stylesheets/my_articles.css" />
+  </head>
+  <body>
+    <%- include('./common/top-navbar.ejs') %>
+    <div style="display: flex"><%- include('./common/side-navbar.ejs') %></div>
+
+    <header>
+      <div class="header darker">
+        <% if(user.avatar !== "no"){ %>
+        <img
+          src="./uploads/avatars/<%=user.avatar%>"
+          alt="Avatar"
+          style="width: 15%"
+        />
+        <% } else { %>
+        <img
+          src="./uploads/avatars/default.png"
+          alt="Avatar"
+          style="width: 15%"
+        />
+        <% } %>
+
+        <h1><%= user.firstName %> <%= user.lastName %></h1>
+        <h2>Number of Articles: <%= myArticles.length %></h2>
+        <h2>Username: <%= user.username %></h2>
+        <span class="time-right">Joined at <%= joinDate %></span>
+      </div>
+    </header>
+    <main>
+      <div class="container">
+        <% if(msg){ %>
+
+        <div class="alert warning">
+          <span class="closebtn">&times;</span>
+          <strong> Error! </strong> <%= msg %>
+        </div>
+
+        <% } %>
+
+        <div
+          style="
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+          "
+        >
+          <div class="header">
+            <h2>New Article</h2>
+          </div>
+          <form
+            id="form"
+            method="post"
+            action="/createArticle"
+            class="form"
+            enctype="multipart/form-data"
+          >
+            <input type="hidden" id="postId" name="postId" value="34657" />
+            <center>
+              <img id="output" />
+            </center>
+
+            <div class="form-control">
+              <label for="title"> <b>Title</b> </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                placeholder="Enter Article Title.."
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+
+            <div class="form-control">
+              <label for="text"> <b>Text</b> </label>
+              <textarea
+                id="text"
+                name="text"
+                placeholder="Enter Article Text.."
+                style="height: 150px"
+              ></textarea>
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+
+            <div class="form-control">
+              <label for="articleHeader"> <b>Header Image</b> </label>
+              <input
+                type="file"
+                accept="image/*"
+                onchange="loadFile(event)"
+                name="articleHeader"
+                id="articleHeader"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+
+            <button id="submit-button" type="submit">
+              Double Click To Add Article
+            </button>
+          </form>
+        </div>
+
+        <% if(myArticles.length !== 0){ %>
+        <div class="container-table">
+          <h1>Your Articles</h1>
+
+          <table id="Articles">
+            <tr>
+              <th>#</th>
+              <th>Article Header</th>
+              <th>Title</th>
+              <th>Summary</th>
+              <th>Date of creation</th>
+              <th>Action</th>
+            </tr>
+
+            <% myArticles.forEach((article, index) => { %>
+            <tr>
+              <td width="5%"><%= index + 1 %></td>
+              <td width="15%">
+                <img
+                  src="./uploads/article headers/<%= article.articleHeader %>"
+                  alt="articleHeader"
+                  style="width: 100%"
+                />
+              </td>
+              <td width="15%"><%= article.title %></td>
+              <td width="35%">
+                <div class="ellipse">
+                  <%= article.text.replace(/<[^>]+>/g, '') %>
+                </div>
+              </td>
+              <td width="10%">
+                <%- article.createdAt.toLocaleDateString('en-US') %>
+              </td>
+              <td width="20%">
+                <div style="display: flex; justify-content: space-between">
+                  <!-- edit article -->
+                  <a href="/editArticle/<%= article._id.toString()%>"
+                    ><i class="fas fa-edit" style="font-size: 30px"></i
+                  ></a>
+                  <!-- read article -->
+                  <a href="/Articles/<%= article._id.toString()%>"
+                    ><i class="fas fa-book-open" style="font-size: 30px"></i
+                  ></a>
+                  <!-- delete article -->
+                  <a
+                    style="cursor: pointer"
+                    onclick="(() => {
+                     request('DELETE', '/Articles/<%= article._id.toString()%>' );
+                     window.location.href = '/myArticles'; 
+                    })()"
+                    ><i class="fas fa-trash" style="font-size: 30px"></i
+                  ></a>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+          </table>
+        </div>
+        <% } %>
+      </div>
+    </main>
+    <script src="javascripts/user-profile.js"></script>
+    <script>
+      async function request(method, url = "", data) {
+        const options = {
+          method,
+          referrerPolicy: "no-referrer",
+          credentials: "same-origin",
+          cache: "no-cache",
+          mode: "cors",
+        };
+        if (!!data) {
+          options["body"] = JSON.stringify(data);
+          options["headers"] = {
+            "Content-Type": "application/json",
+          };
+        }
+        // Default options are marked with *
+        const response = await fetch(url, options);
+        return response.json(); // parses JSON response into native JavaScript objects
+      }
+    </script>
+  </body>
+</html>

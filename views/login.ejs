@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <link rel="stylesheet" href="/stylesheets/login.css" />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <% if(msg){ %>
+
+      <div class="alert warning">
+        <span class="closebtn">&times;</span>
+        <strong> Error! </strong> <%= msg %>
+      </div>
+
+      <% } else { %>
+      <div style="visibility: hidden" class="alert warning">
+        <span class="closebtn">&times;</span>
+        <strong>Nothing </strong> Indicates a warning that might need attention.
+      </div>
+      <% } %>
+
+      <div
+        style="
+          background-color: #fff;
+          border-radius: 5px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        "
+      >
+        <div class="header">
+          <h2>Login</h2>
+        </div>
+        <form id="form" action="/login" method="post" class="form">
+          <div class="form-control">
+            <label for="u_name"> <b>Username</b> </label>
+            <input
+              type="text"
+              name="u_name"
+              placeholder="Enter Username"
+              id="u_name"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small>Error message</small>
+          </div>
+
+          <div class="form-control">
+            <label for="psw"> <b>Password</b> </label>
+            <input
+              type="password"
+              name="psw"
+              placeholder="Enter Password"
+              id="psw"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small>Error message</small>
+          </div>
+
+          <p>
+            Don't have an account?
+            <a href="/register" style="color: dodgerblue">Sign Up</a>.
+          </p>
+          <button id="submit-button" type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="javascripts/login.js"></script>
+  </body>
+</html>

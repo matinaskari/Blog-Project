@@ -1,0 +1,14 @@
+<div class="topnav">
+  <div id="main">
+    <span id="lines"
+      style=" float: left; cursor: pointer"
+      onclick="openNav()"
+      >&#9776;</span
+    >
+  </div>
+  <a class="" href="/Articles">Home</a>
+  <% if(user.role === "admin"){ %>
+  <a href="/adminPanel">Admin Panel</a>
+  <% } %>
+  <a href="/myArticles">User Profile</a>
+</div>

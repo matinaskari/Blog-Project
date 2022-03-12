@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./common/head.ejs') %>
+    <title>Dahboard</title>
+    <link rel="stylesheet" href="/stylesheets/dashboard.css" />
+  </head>
+  <body>
+    <%- include('./common/top-navbar.ejs') %>
+    <div style="display: flex"><%- include('./common/side-navbar.ejs') %></div>
+    <main>
+      <!--  -->
+      <div class="container">
+        <% if(msg){ %>
+
+        <div class="alert warning">
+          <span class="closebtn">&times;</span>
+          <strong> Error! </strong> <%= msg %>
+        </div>
+
+        <% } else { %>
+        <div style="visibility: hidden" class="alert warning">
+          <span class="closebtn">&times;</span>
+          <strong>Nothing </strong> Indicates a warning that might need
+          attention.
+        </div>
+        <% } %>
+        <div
+          style="
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+          "
+        >
+          <div class="header">
+            <h2>User Dashboard</h2>
+          </div>
+          <form id="form"  action="/dashboard" method="post" enctype="multipart/form-data" class="form">
+            <div class="imgcontainer">
+              <% if(user.avatar !== "no"){ %>
+              <img
+                src="./uploads/avatars/<%=user.avatar%>"
+                alt="Avatar"
+                class="avatar"
+                id="output"
+                style="width: 40%"
+              />
+              <% } else { %>
+              <img
+                src="./uploads/avatars/default.png"
+                alt="Avatar"
+                class="avatar"
+                id="output"
+                style="width: 40%"
+              />
+              <% } %>
+            </div>
+            <center>
+              <% if(user.avatar !== "no"){ %>
+              <a
+                style="text-decoration: none"
+                href="/Avatar/<%= user._id.toString()%>"
+              >
+                <button
+                  style="cursor: pointer"
+                  type="button"
+                  id="remove-avatar"
+                >
+                  Remove Avatar
+                </button>
+              </a>
+
+              <% } %>
+            </center>
+
+            <!-- username input -->
+            <div class="form-control">
+              <label for="username"> <b>Username</b> </label>
+              <input
+                type="text"
+                name="username"
+                placeholder="Enter Username"
+                value="<%= user.username %>"
+                id="username"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+            <!-- first name input -->
+            <div class="form-control">
+              <label for="firstName"> <b>First Name</b> </label>
+              <input
+                type="text"
+                name="firstName"
+                placeholder="Enter First Name"
+                value="<%= user.firstName %>"
+                id="firstName"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+            <!-- last name input -->
+            <div class="form-control">
+              <label for="lastName"> <b>Last Name</b> </label>
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Enter Last Name"
+                value="<%= user.lastName %>"
+                id="lastName"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+            <!-- gender select  -->
+
+            <% if( user.gender === "male"){ %>
+
+            <div class="form-control formcontrolselect">
+              <label for="gender"> <b>Gender</b> </label>
+              <select name="gender" id="gender">
+                <option selected value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+
+            <% } else { %>
+
+            <div class="form-control formcontrolselect">
+              <label for="gender"> <b>Gender</b> </label>
+              <select name="gender" id="gender">
+                <option value="male">Male</option>
+                <option selected value="female">Female</option>
+              </select>
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+
+            <% } %>
+
+            <!-- phoneNumber input -->
+            <div class="form-control">
+              <label for="phoneNumber"> <b>Phone Number</b> </label>
+              <input
+                type="number"
+                name="phoneNumber"
+                placeholder="Enter Phone Number"
+                value="<%= user.phoneNumber %>"
+                id="phoneNumber"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+            <!-- avatar input -->
+            <div class="form-control">
+              <label for="avatar"> <b>Avatar</b> </label>
+              <input
+                type="file"
+                name="avatar"
+                accept="image/*"
+                onchange="loadFile(event)"
+                id="avatar"
+              />
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+
+            <button id="submit-button" type="submit">Edit</button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script src="/javascripts/dashboard.js"></script>
+  </body>
+</html>

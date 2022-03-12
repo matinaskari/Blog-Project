@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./common/head.ejs') %>
+    <title><%= article.title %></title>
+    <link rel="stylesheet" href="/stylesheets/article.css" />
+    <link rel="stylesheet" href="/stylesheets/comment.css" />
+  </head>
+  <body>
+    <%- include('./common/top-navbar.ejs') %>
+    <div style="display: flex"><%- include('./common/side-navbar.ejs') %></div>
+    <main>
+      <div class="container">
+        <div style="display: inline-block">
+          <% if(article.author.avatar !== "no"){ %>
+          <img
+            id="avatar"
+            src="/uploads/avatars/<%= article.author.avatar %>"
+            alt="Avatar"
+            style="width: 80px; float: left"
+          />
+          <% } else { %>
+          <img
+            src="/uploads/avatars/default.png"
+            id="avatar"
+            alt="Avatar"
+            class="right"
+            style="width: 80px; float: left"
+          />
+          <% } %>
+
+          <h3 style="float: left">
+            <%= article.author.firstName %> <%= article.author.lastName %>
+          </h3>
+        </div>
+
+        <center>
+          <div style="width: 40%">
+            <img
+              id="article-header"
+              src="/uploads/article headers/<%= article.articleHeader %>"
+              alt="articleHeader"
+              style="width: 100%"
+            />
+          </div>
+        </center>
+        <br />
+        <br />
+        <h1 id="article-title"><%= article.title %></h1>
+        <div id="article-text"><%- article.text %></div>
+
+        <span class="time-right"
+          ><%- article.createdAt.getHours() + ":" +
+          article.createdAt.getMinutes() %>, <%-
+          article.createdAt.toLocaleDateString('en-US',{ weekday: 'long', year:
+          'numeric', month: 'long', day: 'numeric' }) %></span
+        >
+      </div>
+      <!-- add comment -->
+
+      <div class="container-comment">
+        <div
+          style="
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+          "
+        >
+          <div class="header">
+            <h2>Add New Comment</h2>
+          </div>
+          <form id="form" action="/comment" method="post" class="form">
+            <div class="form-control">
+              <input
+                type="hidden"
+                id="postId"
+                name="postId"
+                value="<%= article._id %>"
+              />
+              <textarea
+                id="comment"
+                name="text"
+                placeholder="Write Something"
+                style="height: 70px"
+              ></textarea>
+              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-exclamation-circle"></i>
+              <small>Error message</small>
+            </div>
+
+            <button id="submit-button" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+      <!-- comments -->
+      <% comments.forEach(comment => { %>
+      <div class="comment-container darker">
+        <b style="margin-left: 10px"
+          ><%= comment.author.firstName %> <%= comment.author.lastName %></b
+        >
+
+        <% if(comment.author.avatar !== "no"){ %>
+        <img
+          src="/uploads/avatars/<%= comment.author.avatar %>"
+          alt="Avatar"
+          class="right"
+          style="width: 100%"
+        />
+        <% } else { %>
+        <img
+          src="/uploads/avatars/default.png"
+          alt="Avatar"
+          class="right"
+          style="width: 100%"
+        />
+        <% } %>
+
+        <p id="comment-text"><%= comment.text %></p>
+        <span class="time-left">
+          <%- comment.createdAt.getHours() + ":" +
+          comment.createdAt.getMinutes() %>, <%-
+          comment.createdAt.toLocaleDateString('en-US', { weekday: 'long', year:
+          'numeric', month: 'long', day: 'numeric' }) %>
+        </span>
+        <% if (user.role === "admin") { %>
+
+        <span class="time-right"
+          >Delete Comment:
+          <a
+            style="cursor: pointer"
+            onclick="(() => {
+           request('DELETE', '/comment/<%= comment._id.toString()%>' );
+           window.location.href = '/Articles/<%= comment.article.toString()%>'; 
+          })()"
+            ><i class="fas fa-trash" style="font-size: 15px; color: black"></i
+          ></a>
+        </span>
+
+        <% } %>
+      </div>
+
+      <% }) %>
+    </main>
+    <script src="/javascripts/comment.js"></script>
+    <script>
+      async function request(method, url = "", data) {
+        const options = {
+          method,
+          referrerPolicy: "no-referrer",
+          credentials: "same-origin",
+          cache: "no-cache",
+          mode: "cors",
+        };
+        if (!!data) {
+          options["body"] = JSON.stringify(data);
+          options["headers"] = {
+            "Content-Type": "application/json",
+          };
+        }
+        // Default options are marked with *
+        const response = await fetch(url, options);
+        return response.json(); // parses JSON response into native JavaScript objects
+      }
+    </script>
+  </body>
+</html>

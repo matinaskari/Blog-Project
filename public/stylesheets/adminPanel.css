@@ -1,0 +1,147 @@
+a {
+  color: black;
+}
+
+body {
+  padding: 0px;
+  margin: 0%;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+main {
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1000px;
+  padding: 0 20px;
+}
+
+body {
+  background-color: #66c6ec;
+  font-family: "Open Sans", sans-serif;
+}
+
+.container {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+/* Admins Table */
+
+#admins {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#admins td,
+#admins th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#admins tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#admins tr:hover {
+  background-color: #ddd;
+}
+
+#admins th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04aa6d;
+  color: white;
+}
+
+/* Bloggers Table */
+
+#bolggers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#bolggers td,
+#bolggers th {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+#bolggers tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#bolggers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: rgb(83 90 151);
+  color: white;
+}
+
+/* Articles Table */
+
+#Articles {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#Articles td,
+#Articles th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+
+
+#Articles tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#Articles th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04aa6d;
+  color: white;
+}
+
+
+/* Comments Table */
+
+#Comments {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#Comments td,
+#Comments th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.ellipse {
+  width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#Comments tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#Comments th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04aa6d;
+  color: white;
+}

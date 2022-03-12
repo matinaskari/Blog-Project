@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/stylesheets/register.css" />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <% if(msg){ %>
+
+      <div class="alert warning">
+        <span class="closebtn">&times;</span>
+        <strong> Error! </strong> <%= msg %>
+      </div>
+
+      <% } else { %>
+      <div style="visibility: hidden" class="alert warning">
+        <span class="closebtn">&times;</span>
+        <strong>Nothing </strong> Indicates a warning that might need attention.
+      </div>
+      <% } %>
+
+      <div
+        style="
+          background-color: #fff;
+          border-radius: 5px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        "
+      >
+        <div class="header">
+          <h2>Create Account</h2>
+        </div>
+        <form id="form" method="post" action="/register" class="form">
+          <div class="form-control">
+            <label for="f_name"> <b>First Name</b> </label>
+            <input
+              type="text"
+              name="f_name"
+              placeholder="Enter First Name"
+              id="f_name"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small>Error message</small>
+          </div>
+          <div class="form-control">
+            <label for="l_name"> <b>Last Name</b> </label>
+            <input
+              type="text"
+              name="l_name"
+              placeholder="Enter Last Name"
+              id="l_name"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small>Error message</small>
+          </div>
+          <div class="form-control">
+            <label for="u_name"> <b>Username</b> </label>
+            <input
+              type="text"
+              name="u_name"
+              placeholder="Enter Username"
+              id="u_name"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small>Error message</small>
+          </div>
+          <!--  -->
+          <div class="form-control formcontrolselect">
+            <label for="gender"> <b>Gender</b> </label>
+            <select name="gender" id="gender">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small>Error message</small>
+          </div>
+          <!--  -->
+          <div class="form-control">
+            <label for="phone"> <b>Phone Number</b> </label>
+            <input
+              type="number"
+              name="phone"
+              placeholder="Enter Phone Number"
+              id="phone"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small>Error message</small>
+          </div>
+          <div class="form-control">
+            <label for="psw"> <b>Password</b> </label>
+            <input
+              type="password"
+              name="psw"
+              placeholder="Enter Password"
+              id="psw"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small>Error message</small>
+          </div>
+          <div class="form-control">
+            <label for="psw_repeat"> <b>Repeat Password</b> </label>
+            <input
+              type="password"
+              name="psw_repeat"
+              placeholder="Repeat Password"
+              id="psw_repeat"
+            />
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <small>Error message</small>
+          </div>
+          <p>
+            Have an account?
+            <a href="/login" style="color: dodgerblue">Login</a>.
+          </p>
+          <button id="submit-button" type="submit">Sign Up</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="javascripts/register.js"></script>
+  </body>
+</html>
