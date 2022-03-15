@@ -19,7 +19,7 @@ const {
 //
 const { adminChecker, loginChecker } = require("../tools/sessionCheckers");
 
-router.get("/myArticles", loginChecker, readMyArticles);
+router.get("/profile", loginChecker, readMyArticles);
 
 router.get("/Articles", loginChecker, readAllArticles);
 

@@ -17,7 +17,7 @@ const readadminPanel = async (req, res) => {
     const articles = await Article.find({}).populate("author", " -__v -password -role -phoneNumber -gender");
     res
       .status(200)
-      .render("adminPanel", { bloggers, admins, user, comments, articles });
+      .render("admin-panel", { bloggers, admins, user, comments, articles });
   } else {
     res.redirect(302, "/login");
   }

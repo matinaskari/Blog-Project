@@ -89,7 +89,7 @@ const readMyArticles = async (req, res) => {
   const myArticles = await Article.find({ author: req.session.user._id });
   const user = req.session.user;
 
-  res.render("myArticles", {
+  res.render("user-profile", {
     myArticles: myArticles,
     user: req.session.user,
     joinDate: new Date(user.createdAt).toLocaleDateString("en-US", {
@@ -107,7 +107,6 @@ const readAllArticles = async (req, res) => {
     .sort({ createdAt: -1 })
     .select(" -__v")
     .populate("author", " -__v -password -role -phoneNumber -gender");
-  // res.send({all:allArticles})
 
   res.render("allArticles", {
     allArticles: allArticles,
