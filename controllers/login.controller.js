@@ -39,7 +39,7 @@ const loginBlogger = (req, res) => {
 const readLoginPage = (req, res) => {
   if (req.session.user && req.cookies.blogger_seed) {
     if (req.session.user.role === "admin") {
-      res.redirect(302,"/adminPanel");
+      res.redirect(302,"/admin-panel");
     } else {
       res.redirect(302,"/Articles");
     }

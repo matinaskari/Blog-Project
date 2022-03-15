@@ -6,7 +6,7 @@ const {
   updateBloggerInfo,
   logoutBlogger,
   deleteBlogger,
-} = require("../controllers/dashboard.controller");
+} = require("../controllers/user.controller");
 
 const {
   loginChecker,

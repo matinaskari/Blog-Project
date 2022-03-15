@@ -88,7 +88,7 @@
                   (() => {
                     if (confirm('Are you sure you want to ban user <%= blogger.username %> account?')) {
                       request('DELETE', `/<%= blogger._id.toString() %>` );
-                      window.location.href = '/adminPanel';
+                      window.location.href = '/admin-panel';
                      }
                  })()"
                 >
@@ -147,7 +147,7 @@
                   style="cursor: pointer"
                   onclick="(() => {
                    request('DELETE', '/Articles/<%= article._id.toString()%>' );
-                   window.location.href = '/adminPanel'; 
+                   window.location.href = '/admin-panel'; 
                   })()"
                   ><i class="fas fa-trash" style="font-size: 30px"></i
                 ></a>
@@ -194,7 +194,7 @@
                   style="cursor: pointer"
                   onclick="(() => {
                    request('DELETE', '/comment/<%= comment._id.toString()%>' );
-                   window.location.href = '/adminPanel'; 
+                   window.location.href = '/admin-panel'; 
                   })()"
                   ><i class="fas fa-trash" style="font-size: 30px"></i
                 ></a>

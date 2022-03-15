@@ -75,7 +75,7 @@ const createArticle = (req, res) => {
         text: req.body.text,
         author: req.session.user._id,
       });
-      return res.redirect(302, "/myArticles");
+      return res.redirect(302, "/profile");
     } catch (err) {
       console.log(err);
       return res.status(500).send({ msg: "something went wrong" });
@@ -108,7 +108,7 @@ const readAllArticles = async (req, res) => {
     .select(" -__v")
     .populate("author", " -__v -password -role -phoneNumber -gender");
 
-  res.render("allArticles", {
+  res.render("all-articles", {
     allArticles: allArticles,
     user: req.session.user,
   });
@@ -124,7 +124,6 @@ const readOneArticle = async (req, res) => {
       "author",
       " -__v -password -role -phoneNumber -gender"
     );
-    // res.send({ comments });
     return res.status(200).render("article", {
       article: article,
       comments: comments,
@@ -139,7 +138,6 @@ const readEditArticle = async (req, res) => {
   const article = await Article.findById(req.params.id)
     .select(" -__v")
     .populate("author", " -__v -password -role -phoneNumber -gender");
-  // res.send({article})
   res.status(200).render("edit-article", {
     article: article,
     user: req.session.user,
