@@ -1,5 +1,6 @@
 const { User } = require("../database/models/user.model");
 const bloggerValidator = async (req, res, next) => {
+  console.log(req.body);
   const { f_name, l_name, gender, phone, u_name, psw } = req.body;
   if (
     !f_name?.trim() ||

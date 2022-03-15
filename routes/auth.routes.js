@@ -5,7 +5,6 @@ const {
   updateBloggerInfo,
   logoutBlogger,
   deleteBlogger,
-  remove,
 } = require("../controllers/dashboard.controller");
 //
 const {
@@ -29,7 +28,7 @@ const {
 } = require("../controllers//avatar.controller");
 //
 const { bloggerValidator } = require("../middlewares/create.user.middleware");
-const { updateBloggerloggerValidator } = require("../middlewares/update.user.middleware");
+
 //
 const { adminChecker, loginChecker, CheckReqParamForDeleteBlogger } = require("../tools/sessionCheckers");
 

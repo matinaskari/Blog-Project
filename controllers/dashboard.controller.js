@@ -5,6 +5,9 @@ const { uploadAvatar } = require("../tools/uploadTools");
 const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
+const {
+  bloggervaliadatortest,
+} = require("../middlewares/update.user.middleware");
 
 const readBloggerDashboard = (req, res) => {
   if (req.session.user && req.cookies.blogger_seed) {
@@ -47,6 +50,7 @@ const updateBloggerInfo = async (req, res) => {
         req.session.user = newUser;
         return res.redirect(302, "/dashboard");
       } else {
+        bloggervaliadatortest(req, res);
         const newUser = await User.findByIdAndUpdate(
           req.session.user._id,
           {
@@ -90,6 +94,13 @@ const deleteBlogger = async function (req, res) {
           article.articleHeader
         )
       );
+      Comment.deleteMany({ article: article._id })
+        .then(function () {
+          console.log("comments deleted"); // Success
+        })
+        .catch(function (error) {
+          console.log(error); // Failure
+        });
     });
     await Article.deleteMany({ author: req.params.id });
     await Comment.deleteMany({ author: req.params.id });

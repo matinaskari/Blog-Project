@@ -1,6 +1,7 @@
 const { User } = require("../database/models/user.model");
-const updateBloggerloggerValidator =async (req, res, next) => {
-  const { firstName, lastName, gender, phoneNumber, username} = req.body;
+const updateBloggerloggerValidator = async (req, file, cb) => {
+  console.log(1);
+  const { firstName, lastName, gender, phoneNumber, username } = req.body;
   if (
     !firstName?.trim() ||
     !lastName?.trim() ||
@@ -8,31 +9,35 @@ const updateBloggerloggerValidator =async (req, res, next) => {
     !phoneNumber?.trim() ||
     !username?.trim()
   ) {
-    return res.status(400).send({ msg: "Invalid inputs" });
+    return cb({ msg: "Invalid inputs", status: 400 }, false);
   }
-  //
 
   if (firstName.length < 3) {
-    return res.status(400).send({ msg: "name length must be greater then 3" });
+    return cb(
+      { msg: "name length must be greater than 3", status: 400 },
+      false
+    );
   }
   if (lastName.length < 2) {
-    return res.status(400).send({ msg: "family must be grater than 2" });
+    return cb(
+      { msg: "family length must be grater than 2", status: 400 },
+      false
+    );
   }
-  
+
   const blogger = await User.findOne({ username: username });
 
+  if (blogger && blogger.username !== req.session.user.username) {
+    return cb({ msg: "username already exists", status: 409 }, false);
+  }
 
-    if (blogger && blogger.username !== req.session.user.username) {
-      const user = req.session.user;
-      return res.status(409).render("dashboard", { user, msg: "username already exists" });
-      
-    }
-
-  
   const bloggerMobile = await User.findOne({ phoneNumber: phoneNumber });
 
-  if (bloggerMobile && bloggerMobile.phoneNumber !== req.session.user.phoneNumber ) {
-    return res.status(400).send({ msg: "mobile must be unique" });
+  if (
+    bloggerMobile &&
+    bloggerMobile.phoneNumber !== req.session.user.phoneNumber
+  ) {
+    return cb({ msg: "mobile must be unique", status: 409 }, false);
   }
 
   if (
@@ -40,13 +45,20 @@ const updateBloggerloggerValidator =async (req, res, next) => {
       /(0|\+98)?([ ]|-|[()]){0,2}9[1|2|3|4]([ ]|-|[()]){0,2}(?:[0-9]([ ]|-|[()]){0,2}){8}/
     )
   ) {
-    return res.status(400).send({msg: "Invalid phoneNumber number!"});
+    return cb({ msg: "Invalid phoneNumber number!", status: 400 }, false);
   }
-  if (gender !== "male" && gender !=="female" ) {
-    return res.status(400).send({ msg: "gender is only male or female" });
+  if (gender !== "male" && gender !== "female") {
+    return cb({ msg: "gender is only male or female", status: 400 }, false);
   }
-
-  next();
+  if (!file.originalname.match(/\.(jpg|jpeg|png|JPG|JPEG|PNG)$/)) {
+    return cb({ msg: "invalid type!", status: 406 }, false);
+  }
+  cb(null, true);
 };
 
-module.exports = { updateBloggerloggerValidator };
+const bloggervaliadatortest = (req, res) => {
+  console.log(req.body);
+  // return res.redirect("/dashboard")
+};
+
+module.exports = { updateBloggerloggerValidator, bloggervaliadatortest };
