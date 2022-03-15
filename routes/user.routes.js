@@ -6,6 +6,7 @@ const {
   updateBloggerInfo,
   logoutBlogger,
   deleteBlogger,
+  readChangePassword
 } = require("../controllers/user.controller");
 
 const {
@@ -16,6 +17,8 @@ const {
 const { deleteAvatar } = require("../controllers//avatar.controller");
 
 router.get("/dashboard", loginChecker, readBloggerDashboard);
+
+router.get("/change-password", loginChecker, readChangePassword);
 
 router.post("/dashboard", loginChecker, updateBloggerInfo);
 

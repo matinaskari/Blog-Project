@@ -9,13 +9,14 @@ const {
   bloggervaliadatortest,
 } = require("../middlewares/update.user.middleware");
 
+const readChangePassword = (req, res) => {
+  const user = req.session.user;
+  res.status(200).render("change-password", { user, msg: null });
+};
+
 const readBloggerDashboard = (req, res) => {
-  if (req.session.user && req.cookies.blogger_seed) {
-    const user = req.session.user;
-    res.status(200).render("dashboard", { user, msg: null });
-  } else {
-    res.redirect(302, "/login");
-  }
+  const user = req.session.user;
+  res.status(200).render("dashboard", { user, msg: null });
 };
 
 const updateBloggerInfo = async (req, res) => {
@@ -126,4 +127,5 @@ module.exports = {
   updateBloggerInfo,
   logoutBlogger,
   deleteBlogger,
+  readChangePassword
 };
